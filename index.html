@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Cash Agents | Rating System</title>
+    <meta name="description" content="Rate and rank trusted cash agents for gaming platforms">
+    <style>
+        :root {
+            --primary: #3a56d4;
+            --primary-dark: #2f48b9;
+            --accent: #4cc9f0;
+            --gold: #ffd700;
+            --silver: #e0e0e0;
+            --bronze: #cd7f32;
+            --text-dark: #2b2d42;
+            --text-medium: #4a4a6a;
+            --text-light: #6c6c8a;
+            --bg-light: #f8f9ff;
+            --border-light: #e0e3ff;
+            --success: #4ade80;
+            --error: #f75555;
+            --warning: #ffab07;
+            --whatsapp: #25D366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .page-subtitle {
+            color: var(--text-medium);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Agent Cards */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .agent-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .agent-card.top-1 {
+            border-top: 3px solid var(--gold);
+        }
+
+        .agent-card.top-2 {
+            border-top: 3px solid var(--silver);
+        }
+
+        .agent-card.top-3 {
+            border-top: 3px solid var(--bronze);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .agent-rank {
+            font-size: 1.5rem;
+            font-weight: 700;
+            width: 50px;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .agent-card.top-1 .agent-rank {
+            color: var(--gold);
+        }
+
+        .agent-card.top-2 .agent-rank {
+            color: var(--silver);
+        }
+
+        .agent-card.top-3 .agent-rank {
+            color: var(--bronze);
+        }
+
+        .agent-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--border-light);
+            margin: 0 1rem;
+            background-color: #f0f2ff;
+        }
+
+        .agent-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .agent-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .medal-icon {
+            color: var(--gold);
+            margin-left: 5px;
+            font-size: 1.5rem;
+        }
+
+        .agent-platform {
+            display: inline-block;
+            background: #f0f4ff;
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-rating {
+            display: flex;
+            align-items: center;
+        }
+
+        .rating-stars {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .rating-value {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge-1 {
+            background: var(--gold);
+        }
+
+        .badge-2 {
+            background: var(--silver);
+        }
+
+        .badge-3 {
+            background: var(--bronze);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-medium);
+            width: 120px;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text-medium);
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem;
+            background: #f9faff;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .rating-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(58, 86, 212, 0.1);
+        }
+
+        .btn-whatsapp {
+            background-color: var(--whatsapp);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1da851;
+        }
+
+        .btn-danger {
+            background-color: var(--error);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #e04a4a;
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-icon {
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Collapsible content */
+        .collapse-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .collapse-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .collapse-toggle:hover {
+            opacity: 0.8;
+        }
+
+        .collapse-toggle i {
+            transition: transform 0.3s;
+        }
+
+        .collapse-toggle.active i {
+            transform: rotate(180deg);
+        }
+
+        /* Star rating */
+        .star-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .star-rating .stars {
+            display: flex;
+            margin-right: 0.5rem;
+        }
+
+        .star-rating .star {
+            color: #ddd;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star-rating .star:hover,
+        .star-rating .star.active {
+            color: var(--gold);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text-dark);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--error);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .agent-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .agent-card:nth-child(1) { animation-delay: 0.1s; }
+        .agent-card:nth-child(2) { animation-delay: 0.2s; }
+        .agent-card:nth-child(3) { animation-delay: 0.3s; }
+        .agent-card:nth-child(4) { animation-delay: 0.4s; }
+        .agent-card:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 1.7rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-header {
+                flex-direction: column;
+                text-align: center;
+                padding-bottom: 1rem;
+            }
+
+            .agent-rank {
+                margin-bottom: 0.5rem;
+            }
+
+            .agent-avatar {
+                margin: 0.5rem 0;
+            }
+
+            .agent-info {
+                text-align: center;
+            }
+
+            .agent-rating {
+                justify-content: center;
+            }
+
+            .card-footer {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .rating-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .btn {
+                flex: 1;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-coins logo-icon"></i>
+                <span>CashAgentRatings</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Premium Cash Agents</h1>
+                <p class="page-subtitle">Find and rate trusted deposit/withdrawal service providers for gaming platforms</p>
+            </div>
+
+            <div class="agents-grid" id="agentsList">
+                <!-- Agents will be loaded here dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Agent data - replace with your actual data
+        const agents = [
+            {
+                id: 1,
+                name: "R Ranji & R Ravi",
+                phone: "+94761234567",
+                platform: "1xBet / Melbet / 888Starz / WinWin / Megapari / Golden Pari",
+                city: "Bandarawela",
+                address: "123 Main Street, Colombo 05",
+                services: "Instant deposits, Fast withdrawals, 24/7 support",
+                hours: "7:00 AM - 12:00 PM (Daily)",
+                rating: 4.9,
+                ratingsCount: 142,
+                position: 1,
+                image: "https://randomuser.me/api/portraits/men/32.jpg",
+                joined: "January 2022",
+                whatsapp: "https://wa.me/94761234567"
+            },
+            {
+                id: 2,
+                name: "Janaka Chathuranga",
+                phone: "+94772345678",
+                platform: "1xBet / MelBet",
+                city: "Madola",
+                address: "456 Lake Road, Kandy",
+                services: "VIP services, Bulk transactions, New user assistance",
+                hours: "07:00 AM - 12:00 PM (Daily)",
+                rating: 4.8,
+                ratingsCount: 118,
+                position: 2,
+                image: "https://randomuser.me/api/portraits/women/44.jpg",
+                joined: "March 2021",
+                whatsapp: "https://wa.me/94772345678"
+            },
+            {
+                id: 3,
+                name: "Hanter Service",
+                phone: "+94713456789",
+                platform: "1xBet / Melbet",
+                city: "Moratuwa",
+                address: "789 Beach Lane, Galle",
+                services: "Express withdrawals, Secure transactions, Mobile support",
+                hours: "24/7 Availability",
+                rating: 4.7,
+                ratingsCount: 96,
+                position: 3,
+                image: "https://randomuser.me/api/portraits/men/67.jpg",
+                joined: "November 2022",
+                whatsapp: "https://wa.me/94713456789"
+            },
+            {
+                id: 4,
+                name: "Sarah Ratnayake",
+                phone: "+94764567890",
+                platform: "1xBet",
+                city: "Negombo",
+                address: "321 Coastal Road, Negombo",
+                services: "Beginner friendly, Low fees, Quick response",
+                hours: "8:00 AM - 11:30 PM (Daily)",
+                rating: 4.6,
+                ratingsCount: 87,
+                position: 4,
+                image: "https://randomuser.me/api/portraits/women/28.jpg",
+                joined: "August 2022",
+                whatsapp: "https://wa.me/94764567890"
+            },
+            {
+                id: 5,
+                name: "Kamal Bandara",
+                phone: "+94775678901",
+                platform: "MelBet",
+                city: "Matara",
+                address: "654 Temple Street, Matara",
+                services: "All payment methods, Reliable service, Help guides",
+                hours: "9:30 AM - 10:30 PM (Daily)",
+                rating: 4.5,
+                ratingsCount: 76,
+                position: 5,
+                image: "https://randomuser.me/api/portraits/men/53.jpg",
+                joined: "May 2023",
+                whatsapp: "https://wa.me/94775678901"
+            }
+        ];
+
+        // Enhanced rating system with persistent storage
+        function getDeviceId() {
+            // Try to get a more persistent identifier
+            let deviceId = localStorage.getItem('deviceId_v2');
+            
+            if (!deviceId) {
+                // Check for older version
+                deviceId = localStorage.getItem('deviceId');
+                
+                if (!deviceId) {
+                    // Generate a new ID with timestamp for better uniqueness
+                    deviceId = 'device-' + Date.now() + '-' + Math.random().toString(36).substr(2, 8);
+                }
+                
+                // Migrate to new storage key
+                localStorage.setItem('deviceId_v2', deviceId);
+                localStorage.removeItem('deviceId');
+            }
+            
+            return deviceId;
+        }
+
+        function getAgentRatings() {
+            return JSON.parse(localStorage.getItem('agentRatings_v2')) || {};
+        }
+
+        function saveAgentRatings(ratings) {
+            localStorage.setItem('agentRatings_v2', JSON.stringify(ratings));
+            
+            // Migrate old data if exists
+            if (localStorage.getItem('agentRatings')) {
+                const oldRatings = JSON.parse(localStorage.getItem('agentRatings'));
+                for (const agentId in oldRatings) {
+                    if (!ratings[agentId]) {
+                        ratings[agentId] = oldRatings[agentId];
+                    }
+                }
+                localStorage.setItem('agentRatings_v2', JSON.stringify(ratings));
+                localStorage.removeItem('agentRatings');
+            }
+        }
+
+        function hasRatedAgent(agentId) {
+            const ratings = getAgentRatings();
+            const deviceId = getDeviceId();
+            return ratings[agentId]?.devices?.includes(deviceId);
+        }
+
+        function getUserRating(agentId) {
+            const ratings = getAgentRatings();
+            const deviceId = getDeviceId();
+            if (ratings[agentId]?.userRatings?.[deviceId]) {
+                return ratings[agentId].userRatings[deviceId];
+            }
+            return null;
+        }
+
+        function addRating(agentId, stars) {
+            const ratings = getAgentRatings();
+            const deviceId = getDeviceId();
+            
+            if (!ratings[agentId]) {
+                ratings[agentId] = {
+                    count: 0,
+                    totalStars: 0,
+                    devices: [],
+                    userRatings: {}
+                };
+            }
+            
+            if (!ratings[agentId].devices.includes(deviceId)) {
+                ratings[agentId].devices.push(deviceId);
+                ratings[agentId].userRatings[deviceId] = stars;
+                ratings[agentId].totalStars += stars;
+                ratings[agentId].count = ratings[agentId].devices.length;
+                saveAgentRatings(ratings);
+                return true;
+            }
+            return false;
+        }
+
+        function updateRating(agentId, newStars) {
+            const ratings = getAgentRatings();
+            const deviceId = getDeviceId();
+            
+            if (ratings[agentId]?.devices.includes(deviceId)) {
+                const oldStars = ratings[agentId].userRatings[deviceId];
+                ratings[agentId].totalStars = ratings[agentId].totalStars - oldStars + newStars;
+                ratings[agentId].userRatings[deviceId] = newStars;
+                saveAgentRatings(ratings);
+                return true;
+            }
+            return false;
+        }
+
+        function removeRating(agentId) {
+            const ratings = getAgentRatings();
+            const deviceId = getDeviceId();
+            
+            if (ratings[agentId]?.devices.includes(deviceId)) {
+                const index = ratings[agentId].devices.indexOf(deviceId);
+                ratings[agentId].devices.splice(index, 1);
+                const oldStars = ratings[agentId].userRatings[deviceId];
+                ratings[agentId].totalStars -= oldStars;
+                delete ratings[agentId].userRatings[deviceId];
+                ratings[agentId].count = ratings[agentId].devices.length;
+                saveAgentRatings(ratings);
+                return true;
+            }
+            return false;
+        }
+
+        function updateAgentStats() {
+            const ratings = getAgentRatings();
+            
+            agents.forEach(agent => {
+                if (ratings[agent.id] && ratings[agent.id].count > 0) {
+                    agent.ratingsCount = ratings[agent.id].count;
+                    // Calculate average rating
+                    agent.rating = ratings[agent.id].totalStars / ratings[agent.id].count;
+                } else {
+                    agent.ratingsCount = 0;
+                    agent.rating = 0;
+                }
+            });
+            
+            // Update positions
+            agents.sort((a, b) => b.rating - a.rating);
+            agents.forEach((agent, index) => {
+                agent.position = index + 1;
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function renderAgents() {
+            const container = document.getElementById('agentsList');
+            container.innerHTML = '';
+            
+            agents.forEach((agent, index) => {
+                const stars = '★'.repeat(Math.floor(agent.rating)) + '☆'.repeat(5 - Math.floor(agent.rating));
+                const hasRated = hasRatedAgent(agent.id);
+                const userRating = getUserRating(agent.id);
+                
+                const card = document.createElement('div');
+                card.className = `agent-card ${agent.position <= 3 ? 'top-' + agent.position : ''}`;
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="agent-rank">${agent.position}</div>
+                        <img src="${agent.image}" alt="${agent.name}" class="agent-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><circle cx=\"50\" cy=\"40\" r=\"35\" fill=\"%23f0f2ff\"/><text x=\"50\" y=\"50\" font-size=\"40\" text-anchor=\"middle\" dominant-baseline=\"middle\" fill=\"%233a56d4\">${agent.name.charAt(0)}</text></svg>'">
+                        <div class="agent-info">
+                            <h3 class="agent-name">${agent.name.replace(/[^a-zA-Z ]/g, "")} 
+                                ${agent.position === 1 ? '<i class="fas fa-medal medal-icon"></i>' : ''}
+                            </h3>
+                            <span class="agent-platform">${agent.platform}</span>
+                            <div class="agent-rating">
+                                <div class="rating-stars">${stars}</div>
+                                <div class="rating-value">${agent.rating.toFixed(1)} (${agent.ratingsCount})</div>
+                            </div>
+                        </div>
+                        ${agent.position <= 3 ? `<div class="rank-badge badge-${agent.position}">${agent.position}</div>` : ''}
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-row">
+                            <div class="detail-label">Services:</div>
+                            <div class="detail-value">${agent.services}</div>
+                        </div>
+
+                        <div class="collapse-toggle">
+                            <span>View Profile</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapse-content">
+                            <div class="detail-row">
+                                <div class="detail-label">Location:</div>
+                                <div class="detail-value">${agent.city}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Address:</div>
+                                <div class="detail-value">${agent.address}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Hours:</div>
+                                <div class="detail-value">${agent.hours}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Member Since:</div>
+                                <div class="detail-value">${agent.joined}</div>
+                            </div>
+                        </div>
+
+                        ${hasRated ? `
+                            <div class="star-rating">
+                                <div class="stars">
+                                    ${Array(5).fill().map((_, i) => 
+                                        `<i class="fas fa-star star ${i < userRating ? 'active' : ''}" data-value="${i+1}"></i>`
+                                    ).join('')}
+                                </div>
+                                <div>Your rating: ${userRating} stars</div>
+                            </div>
+                        ` : `
+                            <div class="star-rating">
+                                <div class="stars">
+                                    ${Array(5).fill().map((_, i) => 
+                                        `<i class="far fa-star star" data-value="${i+1}"></i>`
+                                    ).join('')}
+                                </div>
+                                <div>Rate this agent</div>
+                            </div>
+                        `}
+                    </div>
+                    <div class="card-footer">
+                        <div class="rating-controls">
+                            ${hasRated ? `
+                                <button class="btn btn-danger" data-id="${agent.id}" id="removeBtn-${agent.id}">
+                                    <i class="fas fa-minus btn-icon"></i> Remove
+                                </button>
+                            ` : `
+                                <button class="btn btn-primary" data-id="${agent.id}" id="rateBtn-${agent.id}" disabled>
+                                    <i class="fas fa-plus btn-icon"></i> Rate
+                                </button>
+                            `}
+                            <a href="${agent.whatsapp}" class="btn btn-whatsapp" target="_blank">
+                                <i class="fab fa-whatsapp btn-icon"></i> WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+                
+                // Add event listeners for collapsible content
+                const toggle = card.querySelector('.collapse-toggle');
+                const content = card.querySelector('.collapse-content');
+                toggle.addEventListener('click', () => {
+                    toggle.classList.toggle('active');
+                    content.style.maxHeight = content.style.maxHeight ? null : `${content.scrollHeight}px`;
+                });
+
+                // Add event listeners for star rating
+                const starElements = card.querySelectorAll('.star');
+                let selectedStars = hasRated ? userRating : 0;
+                
+                starElements.forEach(star => {
+                    star.addEventListener('click', (e) => {
+                        if (hasRated) return;
+                        
+                        const value = parseInt(e.target.getAttribute('data-value'));
+                        selectedStars = value;
+                        
+                        starElements.forEach((s, i) => {
+                            if (i < value) {
+                                s.classList.remove('far');
+                                s.classList.add('fas', 'active');
+                            } else {
+                                s.classList.remove('fas', 'active');
+                                s.classList.add('far');
+                            }
+                        });
+                        
+                        const rateBtn = card.querySelector('#rateBtn-' + agent.id);
+                        if (rateBtn) {
+                            rateBtn.disabled = false;
+                        }
+                    });
+                });
+
+                // Add event listeners for rating buttons
+                if (hasRated) {
+                    document.getElementById(`removeBtn-${agent.id}`).addEventListener('click', () => {
+                        if (removeRating(agent.id)) {
+                            updateAgentStats();
+                            renderAgents();
+                            showToast("Rating removed successfully");
+                        }
+                    });
+                } else {
+                    document.getElementById(`rateBtn-${agent.id}`).addEventListener('click', () => {
+                        if (selectedStars > 0 && addRating(agent.id, selectedStars)) {
+                            updateAgentStats();
+                            renderAgents();
+                            showToast(`Thank you for your ${selectedStars} star rating!`);
+                        }
+                    });
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAgentStats();
+            renderAgents();
+        });
+    </script>
+</body>
+</html>
