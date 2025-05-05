@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,6 +44,11 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
         }
 
         .header {
@@ -494,6 +499,29 @@
                 flex: 1;
             }
         }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: var(--text-medium);
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary);
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -516,25 +544,52 @@
             </div>
 
             <div class="agents-grid" id="agentsList">
-                <!-- Agents will be loaded here dynamically -->
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <span>Loading agents...</span>
+                </div>
             </div>
         </div>
     </main>
 
     <div class="toast" id="toast"></div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+
     <script>
-        // Agent data
-        const agents = [
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJlm-KhiFTgAgg7JWMqnX_eFd6JogHdhw",
+            authDomain: "cashagentratings.firebaseapp.com",
+            databaseURL: "https://cashagentratings-default-rtdb.firebaseio.com",
+            projectId: "cashagentratings",
+            storageBucket: "cashagentratings.appspot.com",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abcdef1234567890abcdef"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const auth = firebase.auth();
+
+        // Agent data - will be loaded from Firebase
+        let agents = [];
+
+        // Default agents if Firebase fails
+        const defaultAgents = [
             {
                 id: 1,
-                name: "John Silva",
+                name: "R Ranji & R Ravi",
                 phone: "+94761234567",
-                platform: "1xBet",
-                city: "Colombo",
+                platform: "1xBet / Melbet / 888Starz / WinWin / Megapari / Golden Pari",
+                city: "Bandarawela",
                 address: "123 Main Street, Colombo 05",
                 services: "Instant deposits, Fast withdrawals, 24/7 support",
-                hours: "9:00 AM - 11:00 PM (Daily)",
+                hours: "7:00 AM - 12:00 PM (Daily)",
                 rating: 4.9,
                 ratingsCount: 142,
                 position: 1,
@@ -544,13 +599,13 @@
             },
             {
                 id: 2,
-                name: "Maria Fernando",
+                name: "Janaka Chathuranga",
                 phone: "+94772345678",
-                platform: "MelBet",
-                city: "Kandy",
+                platform: "1xBet / MelBet",
+                city: "Madola",
                 address: "456 Lake Road, Kandy",
                 services: "VIP services, Bulk transactions, New user assistance",
-                hours: "10:00 AM - 10:00 PM (Daily)",
+                hours: "07:00 AM - 12:00 PM (Daily)",
                 rating: 4.8,
                 ratingsCount: 118,
                 position: 2,
@@ -560,10 +615,10 @@
             },
             {
                 id: 3,
-                name: "David Perera",
+                name: "Hanter Service",
                 phone: "+94713456789",
-                platform: "WinWin",
-                city: "Galle",
+                platform: "1xBet / Melbet",
+                city: "Moratuwa",
                 address: "789 Beach Lane, Galle",
                 services: "Express withdrawals, Secure transactions, Mobile support",
                 hours: "24/7 Availability",
@@ -573,236 +628,195 @@
                 image: "https://randomuser.me/api/portraits/men/67.jpg",
                 joined: "November 2022",
                 whatsapp: "https://wa.me/94713456789"
-            },
-            {
-                id: 4,
-                name: "Sarah Ratnayake",
-                phone: "+94764567890",
-                platform: "1xBet",
-                city: "Negombo",
-                address: "321 Coastal Road, Negombo",
-                services: "Beginner friendly, Low fees, Quick response",
-                hours: "8:00 AM - 11:30 PM (Daily)",
-                rating: 4.6,
-                ratingsCount: 87,
-                position: 4,
-                image: "https://randomuser.me/api/portraits/women/28.jpg",
-                joined: "August 2022",
-                whatsapp: "https://wa.me/94764567890"
-            },
-            {
-                id: 5,
-                name: "Kamal Bandara",
-                phone: "+94775678901",
-                platform: "MelBet",
-                city: "Matara",
-                address: "654 Temple Street, Matara",
-                services: "All payment methods, Reliable service, Help guides",
-                hours: "9:30 AM - 10:30 PM (Daily)",
-                rating: 4.5,
-                ratingsCount: 76,
-                position: 5,
-                image: "https://randomuser.me/api/portraits/men/53.jpg",
-                joined: "May 2023",
-                whatsapp: "https://wa.me/94775678901"
             }
         ];
 
-        // Enhanced rating system with device fingerprinting
-        class RatingSystem {
-            constructor() {
-                this.deviceFingerprint = null;
-                this.init();
-            }
+        // Initialize with anonymous authentication
+        auth.signInAnonymously()
+            .then(() => {
+                console.log("Signed in anonymously");
+                loadAgents();
+            })
+            .catch((error) => {
+                console.error("Anonymous auth error:", error);
+                // Fallback to default agents if auth fails
+                agents = [...defaultAgents];
+                renderAgents();
+            });
 
-            async init() {
-                this.deviceFingerprint = await this.generateDeviceFingerprint();
-                await this.updateAgentStats();
-                await this.renderAgents();
-            }
-
-            async generateDeviceFingerprint() {
-                try {
-                    const components = [
-                        navigator.userAgent,
-                        navigator.platform,
-                        navigator.hardwareConcurrency,
-                        `${screen.width}x${screen.height}`,
-                        navigator.deviceMemory,
-                        new Intl.DateTimeFormat().resolvedOptions().timeZone,
-                        navigator.language,
-                        await this.getWebGLInfo(),
-                        this.getCanvasFingerprint()
-                    ].filter(Boolean).join('|');
-
-                    return this.hashString(components);
-                } catch (e) {
-                    console.error("Fingerprint generation failed:", e);
-                    return 'fallback-fp-' + Math.random().toString(36).substr(2, 10);
-                }
-            }
-
-            async getWebGLInfo() {
-                try {
-                    const canvas = document.createElement('canvas');
-                    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-                    if (!gl) return null;
-                    
-                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                    return debugInfo ? 
-                        `${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}|${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}` : 
-                        null;
-                } catch (e) {
-                    return null;
-                }
-            }
-
-            getCanvasFingerprint() {
-                try {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = 200;
-                    canvas.height = 50;
-                    
-                    ctx.textBaseline = 'top';
-                    ctx.font = "14px 'Arial'";
-                    ctx.fillStyle = '#f60';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    ctx.fillStyle = '#069';
-                    ctx.fillText('CanvasFingerprint', 2, 15);
-                    
-                    return canvas.toDataURL();
-                } catch (e) {
-                    return null;
-                }
-            }
-
-            hashString(str) {
-                let hash = 0;
-                for (let i = 0; i < str.length; i++) {
-                    const char = str.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + char;
-                    hash = hash & hash;
-                }
-                return 'fp-' + Math.abs(hash).toString(36);
-            }
-
-            async getRatings() {
-                const ratings = localStorage.getItem('agentRatings');
-                return ratings ? JSON.parse(ratings) : {};
-            }
-
-            async saveRatings(ratings) {
-                localStorage.setItem('agentRatings', JSON.stringify(ratings));
-            }
-
-            async addRating(agentId, stars) {
-                const ratings = await this.getRatings();
-                
-                if (!ratings[agentId]) {
-                    ratings[agentId] = {
-                        count: 0,
-                        totalStars: 0,
-                        devices: []
-                    };
-                }
-                
-                // Check if device already rated this agent
-                const existingRating = ratings[agentId].devices.find(
-                    device => device.fingerprint === this.deviceFingerprint
-                );
-                
-                if (!existingRating) {
-                    ratings[agentId].devices.push({
-                        fingerprint: this.deviceFingerprint,
-                        stars: stars,
-                        timestamp: Date.now()
-                    });
-                    
-                    ratings[agentId].count = ratings[agentId].devices.length;
-                    ratings[agentId].totalStars = ratings[agentId].devices.reduce(
-                        (sum, device) => sum + device.stars, 0
-                    );
-                    
-                    await this.saveRatings(ratings);
-                    return true;
-                }
-                
-                return false;
-            }
-
-            async removeRating(agentId) {
-                const ratings = await this.getRatings();
-                
-                if (ratings[agentId]) {
-                    const initialLength = ratings[agentId].devices.length;
-                    ratings[agentId].devices = ratings[agentId].devices.filter(
-                        device => device.fingerprint !== this.deviceFingerprint
-                    );
-                    
-                    if (ratings[agentId].devices.length !== initialLength) {
-                        ratings[agentId].count = ratings[agentId].devices.length;
-                        ratings[agentId].totalStars = ratings[agentId].devices.reduce(
-                            (sum, device) => sum + device.stars, 0
-                        );
-                        
-                        await this.saveRatings(ratings);
-                        return true;
-                    }
-                }
-                
-                return false;
-            }
-
-            async hasRated(agentId) {
-                const ratings = await this.getRatings();
-                return ratings[agentId]?.devices.some(
-                    device => device.fingerprint === this.deviceFingerprint
-                ) || false;
-            }
-
-            async getDeviceRating(agentId) {
-                const ratings = await this.getRatings();
-                const deviceRating = ratings[agentId]?.devices.find(
-                    device => device.fingerprint === this.deviceFingerprint
-                );
-                return deviceRating ? deviceRating.stars : null;
-            }
-
-            async updateAgentStats() {
-                const ratings = await this.getRatings();
-                
-                agents.forEach(agent => {
-                    if (ratings[agent.id] && ratings[agent.id].count > 0) {
-                        agent.ratingsCount = ratings[agent.id].count;
-                        agent.rating = ratings[agent.id].totalStars / ratings[agent.id].count;
+        // Load agents from Firebase
+        function loadAgents() {
+            database.ref('agents').once('value')
+                .then((snapshot) => {
+                    const agentsData = snapshot.val();
+                    if (agentsData) {
+                        agents = Object.values(agentsData);
+                        updateAgentStats();
                     } else {
-                        agent.ratingsCount = 0;
-                        agent.rating = 0;
+                        // If no agents in DB, use the default ones
+                        agents = [...defaultAgents];
+                        saveAgentsToFirebase();
+                        updateAgentStats();
                     }
+                    renderAgents();
+                })
+                .catch((error) => {
+                    console.error("Error loading agents:", error);
+                    // Fallback to default agents if DB fails
+                    agents = [...defaultAgents];
+                    renderAgents();
+                });
+        }
+
+        // Save agents to Firebase
+        function saveAgentsToFirebase() {
+            const agentsRef = database.ref('agents');
+            agents.forEach(agent => {
+                agentsRef.child(agent.id).set(agent);
+            });
+        }
+
+        // Check if user has rated an agent
+        function hasRatedAgent(agentId) {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return Promise.resolve(false);
+            
+            return database.ref(`userRatings/${userId}/${agentId}`).once('value')
+                .then((snapshot) => {
+                    return snapshot.exists();
+                })
+                .catch(() => {
+                    return false;
+                });
+        }
+
+        // Get user's rating for an agent
+        function getUserRating(agentId) {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return Promise.resolve(null);
+            
+            return database.ref(`userRatings/${userId}/${agentId}`).once('value')
+                .then((snapshot) => {
+                    return snapshot.val();
+                })
+                .catch(() => {
+                    return null;
+                });
+        }
+
+        // Add a new rating
+        async function addRating(agentId, stars) {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return false;
+            
+            try {
+                // Add user rating
+                await database.ref(`userRatings/${userId}/${agentId}`).set(stars);
+                
+                // Update agent's total ratings
+                const agentRef = database.ref(`agents/${agentId}`);
+                await agentRef.transaction((agent) => {
+                    if (agent) {
+                        agent.ratingsCount = (agent.ratingsCount || 0) + 1;
+                        agent.totalStars = (agent.totalStars || 0) + stars;
+                        agent.rating = agent.totalStars / agent.ratingsCount;
+                    }
+                    return agent;
                 });
                 
-                // Update positions based on new ratings
-                agents.sort((a, b) => b.rating - a.rating);
-                agents.forEach((agent, index) => {
-                    agent.position = index + 1;
-                });
+                return true;
+            } catch (error) {
+                console.error("Error adding rating:", error);
+                return false;
             }
+        }
 
-            async renderAgents() {
-                const container = document.getElementById('agentsList');
+        // Remove a rating
+        async function removeRating(agentId) {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return false;
+            
+            try {
+                // Get old rating
+                const snapshot = await database.ref(`userRatings/${userId}/${agentId}`).once('value');
+                const oldStars = snapshot.val();
+                
+                if (oldStars === null) return false;
+                
+                // Remove user rating
+                await database.ref(`userRatings/${userId}/${agentId}`).remove();
+                
+                // Update agent's total ratings
+                const agentRef = database.ref(`agents/${agentId}`);
+                await agentRef.transaction((agent) => {
+                    if (agent) {
+                        agent.ratingsCount = (agent.ratingsCount || 1) - 1;
+                        agent.totalStars = (agent.totalStars || oldStars) - oldStars;
+                        agent.rating = agent.ratingsCount > 0 ? agent.totalStars / agent.ratingsCount : 0;
+                    }
+                    return agent;
+                });
+                
+                return true;
+            } catch (error) {
+                console.error("Error removing rating:", error);
+                return false;
+            }
+        }
+
+        // Update agent statistics (positions based on ratings)
+        async function updateAgentStats() {
+            // Sort agents by rating
+            agents.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+            
+            // Update positions
+            agents.forEach((agent, index) => {
+                agent.position = index + 1;
+            });
+            
+            // Save updated positions back to Firebase
+            try {
+                await saveAgentsToFirebase();
+            } catch (error) {
+                console.error("Error saving agent stats:", error);
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Render agents to the page
+        async function renderAgents() {
+            const container = document.getElementById('agentsList');
+            
+            // Show loading state
+            container.innerHTML = '<div class="loading"><div class="loading-spinner"></div><span>Loading agents...</span></div>';
+            
+            try {
+                // Wait for all rating checks to complete
+                const ratingChecks = agents.map(agent => 
+                    Promise.all([hasRatedAgent(agent.id), getUserRating(agent.id)])
+                );
+                const ratingResults = await Promise.all(ratingChecks);
+                
+                // Now render the agents
                 container.innerHTML = '';
                 
-                await this.updateAgentStats();
-                
-                for (const agent of agents) {
-                    const stars = '★'.repeat(Math.floor(agent.rating)) + '☆'.repeat(5 - Math.floor(agent.rating));
-                    const hasRated = await this.hasRated(agent.id);
-                    const userRating = await this.getDeviceRating(agent.id);
+                agents.forEach((agent, index) => {
+                    const stars = '★'.repeat(Math.floor(agent.rating || 0)) + '☆'.repeat(5 - Math.floor(agent.rating || 0));
+                    const [hasRated, userRating] = ratingResults[index];
                     
                     const card = document.createElement('div');
                     card.className = `agent-card ${agent.position <= 3 ? 'top-' + agent.position : ''}`;
-                    card.dataset.agentId = agent.id;
+                    card.style.animationDelay = `${index * 0.1}s`;
                     
                     card.innerHTML = `
                         <div class="card-header">
@@ -815,7 +829,7 @@
                                 <span class="agent-platform">${agent.platform}</span>
                                 <div class="agent-rating">
                                     <div class="rating-stars">${stars}</div>
-                                    <div class="rating-value">${agent.rating.toFixed(1)} (${agent.ratingsCount})</div>
+                                    <div class="rating-value">${(agent.rating || 0).toFixed(1)} (${agent.ratingsCount || 0})</div>
                                 </div>
                             </div>
                             ${agent.position <= 3 ? `<div class="rank-badge badge-${agent.position}">${agent.position}</div>` : ''}
@@ -888,27 +902,23 @@
                     `;
                     
                     container.appendChild(card);
-                    this.initCardInteractions(card, agent.id);
-                }
-            }
+                    
+                    // Add event listeners for collapsible content
+                    const toggle = card.querySelector('.collapse-toggle');
+                    const content = card.querySelector('.collapse-content');
+                    toggle.addEventListener('click', () => {
+                        toggle.classList.toggle('active');
+                        content.style.maxHeight = content.style.maxHeight ? null : `${content.scrollHeight}px`;
+                    });
 
-            initCardInteractions(card, agentId) {
-                // Collapsible content
-                const toggle = card.querySelector('.collapse-toggle');
-                const content = card.querySelector('.collapse-content');
-                toggle.addEventListener('click', () => {
-                    toggle.classList.toggle('active');
-                    content.style.maxHeight = content.style.maxHeight ? null : `${content.scrollHeight}px`;
-                });
-
-                // Star rating
-                const starElements = card.querySelectorAll('.star');
-                let selectedStars = 0;
-                
-                starElements.forEach(star => {
-                    star.addEventListener('click', (e) => {
-                        const rateBtn = card.querySelector('#rateBtn-' + agentId);
-                        if (rateBtn && rateBtn.disabled) {
+                    // Add event listeners for star rating
+                    const starElements = card.querySelectorAll('.star');
+                    let selectedStars = hasRated ? userRating : 0;
+                    
+                    starElements.forEach(star => {
+                        star.addEventListener('click', (e) => {
+                            if (hasRated) return;
+                            
                             const value = parseInt(e.target.getAttribute('data-value'));
                             selectedStars = value;
                             
@@ -922,57 +932,41 @@
                                 }
                             });
                             
+                            const rateBtn = card.querySelector('#rateBtn-' + agent.id);
                             if (rateBtn) {
                                 rateBtn.disabled = false;
                             }
-                        }
+                        });
                     });
-                });
 
-                // Rating buttons
-                const rateBtn = card.querySelector('#rateBtn-' + agentId);
-                if (rateBtn) {
-                    rateBtn.addEventListener('click', async () => {
-                        if (selectedStars > 0) {
-                            const success = await this.addRating(agentId, selectedStars);
-                            if (success) {
-                                await this.updateAgentStats();
-                                await this.renderAgents();
-                                this.showToast(`Thank you for your ${selectedStars} star rating!`, 'success');
-                            } else {
-                                this.showToast("You've already rated this agent", 'error');
+                    // Add event listeners for rating buttons
+                    if (hasRated) {
+                        document.getElementById(`removeBtn-${agent.id}`).addEventListener('click', async () => {
+                            if (await removeRating(agent.id)) {
+                                await updateAgentStats();
+                                await renderAgents();
+                                showToast("Rating removed successfully");
                             }
-                        }
-                    });
-                }
-
-                const removeBtn = card.querySelector('#removeBtn-' + agentId);
-                if (removeBtn) {
-                    removeBtn.addEventListener('click', async () => {
-                        const success = await this.removeRating(agentId);
-                        if (success) {
-                            await this.updateAgentStats();
-                            await this.renderAgents();
-                            this.showToast("Rating removed successfully", 'success');
-                        }
-                    });
-                }
-            }
-
-            showToast(message, type = 'success') {
-                const toast = document.getElementById('toast');
-                toast.textContent = message;
-                toast.className = 'toast show ' + type;
-                
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
+                        });
+                    } else {
+                        document.getElementById(`rateBtn-${agent.id}`).addEventListener('click', async () => {
+                            if (selectedStars > 0 && await addRating(agent.id, selectedStars)) {
+                                await updateAgentStats();
+                                await renderAgents();
+                                showToast(`Thank you for your ${selectedStars} star rating!`);
+                            }
+                        });
+                    }
+                });
+            } catch (error) {
+                console.error("Error rendering agents:", error);
+                container.innerHTML = '<div class="error">Error loading agents. Please try again later.</div>';
             }
         }
 
-        // Initialize the rating system when DOM is loaded
+        // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            new RatingSystem();
+            // Everything is initialized in the auth state change handler
         });
     </script>
 </body>
