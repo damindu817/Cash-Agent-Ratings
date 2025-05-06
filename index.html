@@ -480,6 +480,12 @@
             }
         ];
 
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         function renderAgents() {
             const container = document.getElementById('agentsList');
             container.innerHTML = '';
@@ -504,66 +510,185 @@
                 card.className = `agent-card ${agent.position === 1 ? 'top-rated' : ''}`;
                 card.style.animationDelay = `${index * 0.1}s`;
                 
-                card.innerHTML = `
-                    <div class="card-header">
-                        <img src="${agent.image}" alt="${agent.name}" class="agent-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><circle cx=\"50\" cy=\"40\" r=\"35\" fill=\"%23f0f2ff\"/><text x=\"50\" y=\"50\" font-size=\"40\" text-anchor=\"middle\" dominant-baseline=\"middle\" fill=\"%233a56d4\">${agent.name.charAt(0)}</text></svg>'">
-                        <div class="agent-info">
-                            <h3 class="agent-name">${agent.name}</h3>
-                            <span class="agent-platform">${agent.platform}</span>
-                            <div class="agent-rating">
-                                <div class="rating-stars">${stars}</div>
-                                <div class="rating-value">${agent.rating.toFixed(1)} (${agent.ratingsCount})</div>
-                            </div>
-                        </div>
-                        ${medalClass ? `<div class="medal-badge"><i class="fas fa-medal ${medalClass}"></i></div>` : ''}
-                    </div>
-                    <div class="card-body">
-                        <div class="detail-row">
-                            <div class="detail-label">Services:</div>
-                            <div class="detail-value">${agent.services}</div>
-                        </div>
-
-                        <div class="collapse-toggle">
-                            <span>View Profile</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="collapse-content">
-                            <div class="detail-row">
-                                <div class="detail-label">Location:</div>
-                                <div class="detail-value">${agent.city}</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Address:</div>
-                                <div class="detail-value">${agent.address}</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Hours:</div>
-                                <div class="detail-value">${agent.hours}</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Member Since:</div>
-                                <div class="detail-value">${agent.joined}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="${agent.whatsapp}" class="btn-whatsapp" target="_blank">
-                            <i class="fab fa-whatsapp btn-icon"></i> WhatsApp
-                        </a>
-                    </div>
-                `;
+                // Create card elements safely
+                const cardHeader = document.createElement('div');
+                cardHeader.className = 'card-header';
+                
+                const avatarImg = document.createElement('img');
+                avatarImg.src = escapeHtml(agent.image);
+                avatarImg.alt = escapeHtml(agent.name);
+                avatarImg.className = 'agent-avatar';
+                avatarImg.onerror = function() {
+                    this.src = 'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="40" r="35" fill="%23f0f2ff"/><text x="50" y="50" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="%233a56d4">' + escapeHtml(agent.name.charAt(0)) + '</text></svg>';
+                };
+                cardHeader.appendChild(avatarImg);
+                
+                const agentInfo = document.createElement('div');
+                agentInfo.className = 'agent-info';
+                
+                const agentName = document.createElement('h3');
+                agentName.className = 'agent-name';
+                agentName.textContent = agent.name; // Using textContent instead of innerHTML
+                agentInfo.appendChild(agentName);
+                
+                const agentPlatform = document.createElement('span');
+                agentPlatform.className = 'agent-platform';
+                agentPlatform.textContent = agent.platform;
+                agentInfo.appendChild(agentPlatform);
+                
+                const agentRating = document.createElement('div');
+                agentRating.className = 'agent-rating';
+                
+                const ratingStars = document.createElement('div');
+                ratingStars.className = 'rating-stars';
+                ratingStars.textContent = stars;
+                agentRating.appendChild(ratingStars);
+                
+                const ratingValue = document.createElement('div');
+                ratingValue.className = 'rating-value';
+                ratingValue.textContent = `${agent.rating.toFixed(1)} (${agent.ratingsCount})`;
+                agentRating.appendChild(ratingValue);
+                
+                agentInfo.appendChild(agentRating);
+                cardHeader.appendChild(agentInfo);
+                
+                if (medalClass) {
+                    const medalBadge = document.createElement('div');
+                    medalBadge.className = 'medal-badge';
+                    const medalIcon = document.createElement('i');
+                    medalIcon.className = `fas fa-medal ${medalClass}`;
+                    medalBadge.appendChild(medalIcon);
+                    cardHeader.appendChild(medalBadge);
+                }
+                
+                card.appendChild(cardHeader);
+                
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+                
+                const servicesRow = document.createElement('div');
+                servicesRow.className = 'detail-row';
+                
+                const servicesLabel = document.createElement('div');
+                servicesLabel.className = 'detail-label';
+                servicesLabel.textContent = 'Services:';
+                servicesRow.appendChild(servicesLabel);
+                
+                const servicesValue = document.createElement('div');
+                servicesValue.className = 'detail-value';
+                servicesValue.textContent = agent.services;
+                servicesRow.appendChild(servicesValue);
+                
+                cardBody.appendChild(servicesRow);
+                
+                const collapseToggle = document.createElement('div');
+                collapseToggle.className = 'collapse-toggle';
+                
+                const toggleText = document.createElement('span');
+                toggleText.textContent = 'View Profile';
+                collapseToggle.appendChild(toggleText);
+                
+                const toggleIcon = document.createElement('i');
+                toggleIcon.className = 'fas fa-chevron-down';
+                collapseToggle.appendChild(toggleIcon);
+                
+                cardBody.appendChild(collapseToggle);
+                
+                const collapseContent = document.createElement('div');
+                collapseContent.className = 'collapse-content';
+                
+                // Location row
+                const locationRow = document.createElement('div');
+                locationRow.className = 'detail-row';
+                
+                const locationLabel = document.createElement('div');
+                locationLabel.className = 'detail-label';
+                locationLabel.textContent = 'Location:';
+                locationRow.appendChild(locationLabel);
+                
+                const locationValue = document.createElement('div');
+                locationValue.className = 'detail-value';
+                locationValue.textContent = agent.city;
+                locationRow.appendChild(locationValue);
+                
+                collapseContent.appendChild(locationRow);
+                
+                // Address row
+                const addressRow = document.createElement('div');
+                addressRow.className = 'detail-row';
+                
+                const addressLabel = document.createElement('div');
+                addressLabel.className = 'detail-label';
+                addressLabel.textContent = 'Address:';
+                addressRow.appendChild(addressLabel);
+                
+                const addressValue = document.createElement('div');
+                addressValue.className = 'detail-value';
+                addressValue.textContent = agent.address;
+                addressRow.appendChild(addressValue);
+                
+                collapseContent.appendChild(addressRow);
+                
+                // Hours row
+                const hoursRow = document.createElement('div');
+                hoursRow.className = 'detail-row';
+                
+                const hoursLabel = document.createElement('div');
+                hoursLabel.className = 'detail-label';
+                hoursLabel.textContent = 'Hours:';
+                hoursRow.appendChild(hoursLabel);
+                
+                const hoursValue = document.createElement('div');
+                hoursValue.className = 'detail-value';
+                hoursValue.textContent = agent.hours;
+                hoursRow.appendChild(hoursValue);
+                
+                collapseContent.appendChild(hoursRow);
+                
+                // Joined row
+                const joinedRow = document.createElement('div');
+                joinedRow.className = 'detail-row';
+                
+                const joinedLabel = document.createElement('div');
+                joinedLabel.className = 'detail-label';
+                joinedLabel.textContent = 'Member Since:';
+                joinedRow.appendChild(joinedLabel);
+                
+                const joinedValue = document.createElement('div');
+                joinedValue.className = 'detail-value';
+                joinedValue.textContent = agent.joined;
+                joinedRow.appendChild(joinedValue);
+                
+                collapseContent.appendChild(joinedRow);
+                
+                cardBody.appendChild(collapseContent);
+                card.appendChild(cardBody);
+                
+                const cardFooter = document.createElement('div');
+                cardFooter.className = 'card-footer';
+                
+                const whatsappBtn = document.createElement('a');
+                whatsappBtn.href = escapeHtml(agent.whatsapp);
+                whatsappBtn.className = 'btn-whatsapp';
+                whatsappBtn.target = '_blank';
+                
+                const whatsappIcon = document.createElement('i');
+                whatsappIcon.className = 'fab fa-whatsapp btn-icon';
+                whatsappBtn.appendChild(whatsappIcon);
+                
+                const whatsappText = document.createTextNode('WhatsApp');
+                whatsappBtn.appendChild(whatsappText);
+                
+                cardFooter.appendChild(whatsappBtn);
+                card.appendChild(cardFooter);
                 
                 container.appendChild(card);
                 
                 // Add event listeners for collapsible content
-                const toggle = card.querySelector('.collapse-toggle');
-                const content = card.querySelector('.collapse-content');
-                if (toggle && content) {
-                    toggle.addEventListener('click', () => {
-                        toggle.classList.toggle('active');
-                        content.style.maxHeight = content.style.maxHeight ? null : `${content.scrollHeight}px`;
-                    });
-                }
+                collapseToggle.addEventListener('click', () => {
+                    collapseToggle.classList.toggle('active');
+                    collapseContent.style.maxHeight = collapseContent.style.maxHeight ? null : `${collapseContent.scrollHeight}px`;
+                });
             });
         }
 
