@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,6 +39,7 @@
             min-height: 100vh;
         }
 
+        /* Layout */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -46,11 +47,13 @@
             padding: 0 20px;
         }
 
+        /* Typography */
         h1, h2, h3 {
             font-weight: 700;
             line-height: 1.2;
         }
 
+        /* Header */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
@@ -79,6 +82,7 @@
             font-size: 1.8rem;
         }
 
+        /* Main Content */
         .main {
             padding: 2rem 0;
         }
@@ -101,6 +105,7 @@
             margin: 0 auto;
         }
 
+        /* Agent Cards */
         .agents-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -117,21 +122,17 @@
             position: relative;
         }
 
+        .agent-card.hidden {
+            display: none;
+        }
+
         .agent-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .agent-card.top-1 {
+        .agent-card.top-rated {
             border-top: 3px solid var(--gold);
-        }
-
-        .agent-card.top-2 {
-            border-top: 3px solid var(--silver);
-        }
-
-        .agent-card.top-3 {
-            border-top: 3px solid var(--bronze);
         }
 
         .card-header {
@@ -139,26 +140,6 @@
             display: flex;
             align-items: center;
             border-bottom: 1px solid var(--border-light);
-        }
-
-        .agent-rank {
-            font-size: 1.5rem;
-            font-weight: 700;
-            width: 50px;
-            text-align: center;
-            color: var(--text-light);
-        }
-
-        .agent-card.top-1 .agent-rank {
-            color: var(--gold);
-        }
-
-        .agent-card.top-2 .agent-rank {
-            color: var(--silver);
-        }
-
-        .agent-card.top-3 .agent-rank {
-            color: var(--bronze);
         }
 
         .agent-avatar {
@@ -183,12 +164,6 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        .medal-icon {
-            color: var(--gold);
-            margin-left: 5px;
-            font-size: 1.5rem;
         }
 
         .agent-platform {
@@ -220,32 +195,23 @@
             font-weight: 500;
         }
 
-        .rank-badge {
+        .medal-badge {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1.8rem;
         }
 
-        .badge-1 {
-            background: var(--gold);
+        .gold-medal {
+            color: var(--gold);
         }
 
-        .badge-2 {
-            background: var(--silver);
+        .silver-medal {
+            color: var(--silver);
         }
 
-        .badge-3 {
-            background: var(--bronze);
+        .bronze-medal {
+            color: var(--bronze);
         }
 
         .card-body {
@@ -279,12 +245,10 @@
             justify-content: flex-end;
         }
 
-        .rating-controls {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .btn {
+        .btn-whatsapp {
+            background-color: var(--whatsapp);
+            color: white;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -295,50 +259,10 @@
             cursor: pointer;
             transition: all 0.2s;
             border: none;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: rgba(58, 86, 212, 0.1);
-        }
-
-        .btn-whatsapp {
-            background-color: var(--whatsapp);
-            color: white;
-            text-decoration: none;
         }
 
         .btn-whatsapp:hover {
             background-color: #1da851;
-        }
-
-        .btn-danger {
-            background-color: var(--error);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #e04a4a;
-        }
-
-        .btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
         }
 
         .btn-icon {
@@ -346,6 +270,7 @@
             font-size: 0.9rem;
         }
 
+        /* Collapsible content */
         .collapse-content {
             max-height: 0;
             overflow: hidden;
@@ -374,58 +299,7 @@
             transform: rotate(180deg);
         }
 
-        .star-rating {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .star-rating .stars {
-            display: flex;
-            margin-right: 0.5rem;
-        }
-
-        .star-rating .star {
-            color: #ddd;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .star-rating .star:hover,
-        .star-rating .star.active {
-            color: var(--gold);
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--text-dark);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            max-width: 90%;
-            text-align: center;
-        }
-
-        .toast.show {
-            opacity: 1;
-        }
-
-        .toast.success {
-            background: var(--success);
-        }
-
-        .toast.error {
-            background: var(--error);
-        }
-
+        /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -445,9 +319,8 @@
         .agent-card:nth-child(1) { animation-delay: 0.1s; }
         .agent-card:nth-child(2) { animation-delay: 0.2s; }
         .agent-card:nth-child(3) { animation-delay: 0.3s; }
-        .agent-card:nth-child(4) { animation-delay: 0.4s; }
-        .agent-card:nth-child(5) { animation-delay: 0.5s; }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
             .agents-grid {
                 grid-template-columns: 1fr;
@@ -469,10 +342,6 @@
                 padding-bottom: 1rem;
             }
 
-            .agent-rank {
-                margin-bottom: 0.5rem;
-            }
-
             .agent-avatar {
                 margin: 0.5rem 0;
             }
@@ -490,37 +359,9 @@
                 gap: 1rem;
             }
 
-            .rating-controls {
+            .btn-whatsapp {
                 width: 100%;
-                justify-content: space-between;
             }
-
-            .btn {
-                flex: 1;
-            }
-        }
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 2rem;
-            font-size: 1.2rem;
-            color: var(--text-medium);
-        }
-
-        .loading-spinner {
-            border: 3px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top: 3px solid var(--primary);
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -544,46 +385,17 @@
             </div>
 
             <div class="agents-grid" id="agentsList">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <span>Loading agents...</span>
-                </div>
+                <!-- Agents will be loaded here dynamically -->
             </div>
         </div>
     </main>
 
-    <div class="toast" id="toast"></div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAJlm-KhiFTgAgg7JWMqnX_eFd6JogHdhw",
-            authDomain: "cashagentratings.firebaseapp.com",
-            databaseURL: "https://cashagentratings-default-rtdb.firebaseio.com",
-            projectId: "cashagentratings",
-            storageBucket: "cashagentratings.appspot.com",
-            messagingSenderId: "123456789012",
-            appId: "1:123456789012:web:abcdef1234567890abcdef"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const auth = firebase.auth();
-
-        // Agent data - will be loaded from Firebase
-        let agents = [];
-
-        // Default agents if Firebase fails
-        const defaultAgents = [
+        // Agent data with all agents but some hidden
+        const agents = [
             {
                 id: 1,
-                name: "R Ranji & R Ravi",
+                name: "R Ranji R Ravi",
                 phone: "+94761234567",
                 platform: "1xBet / Melbet / 888Starz / WinWin / Megapari / Golden Pari",
                 city: "Bandarawela",
@@ -595,7 +407,8 @@
                 position: 1,
                 image: "https://randomuser.me/api/portraits/men/32.jpg",
                 joined: "January 2022",
-                whatsapp: "https://wa.me/94761234567"
+                whatsapp: "https://wa.me/94761234567",
+                hidden: false
             },
             {
                 id: 2,
@@ -611,7 +424,8 @@
                 position: 2,
                 image: "https://randomuser.me/api/portraits/women/44.jpg",
                 joined: "March 2021",
-                whatsapp: "https://wa.me/94772345678"
+                whatsapp: "https://wa.me/94772345678",
+                hidden: false
             },
             {
                 id: 3,
@@ -627,346 +441,135 @@
                 position: 3,
                 image: "https://randomuser.me/api/portraits/men/67.jpg",
                 joined: "November 2022",
-                whatsapp: "https://wa.me/94713456789"
+                whatsapp: "https://wa.me/94713456789",
+                hidden: false
+            },
+            {
+                id: 4,
+                name: "Sarah Ratnayake",
+                phone: "+94764567890",
+                platform: "1xBet",
+                city: "Negombo",
+                address: "321 Coastal Road, Negombo",
+                services: "Beginner friendly, Low fees, Quick response",
+                hours: "8:00 AM - 11:30 PM (Daily)",
+                rating: 4.6,
+                ratingsCount: 87,
+                position: 4,
+                image: "https://randomuser.me/api/portraits/women/28.jpg",
+                joined: "August 2022",
+                whatsapp: "https://wa.me/94764567890",
+                hidden: true
+            },
+            {
+                id: 5,
+                name: "Kamal Bandara",
+                phone: "+94775678901",
+                platform: "MelBet",
+                city: "Matara",
+                address: "654 Temple Street, Matara",
+                services: "All payment methods, Reliable service, Help guides",
+                hours: "9:30 AM - 10:30 PM (Daily)",
+                rating: 4.5,
+                ratingsCount: 76,
+                position: 5,
+                image: "https://randomuser.me/api/portraits/men/53.jpg",
+                joined: "May 2023",
+                whatsapp: "https://wa.me/94775678901",
+                hidden: true
             }
         ];
 
-        // Initialize with anonymous authentication
-        auth.signInAnonymously()
-            .then(() => {
-                console.log("Signed in anonymously");
-                loadAgents();
-            })
-            .catch((error) => {
-                console.error("Anonymous auth error:", error);
-                // Fallback to default agents if auth fails
-                agents = [...defaultAgents];
-                renderAgents();
-            });
-
-        // Load agents from Firebase
-        function loadAgents() {
-            database.ref('agents').once('value')
-                .then((snapshot) => {
-                    const agentsData = snapshot.val();
-                    if (agentsData) {
-                        agents = Object.values(agentsData);
-                        updateAgentStats();
-                    } else {
-                        // If no agents in DB, use the default ones
-                        agents = [...defaultAgents];
-                        saveAgentsToFirebase();
-                        updateAgentStats();
-                    }
-                    renderAgents();
-                })
-                .catch((error) => {
-                    console.error("Error loading agents:", error);
-                    // Fallback to default agents if DB fails
-                    agents = [...defaultAgents];
-                    renderAgents();
-                });
-        }
-
-        // Save agents to Firebase
-        function saveAgentsToFirebase() {
-            const agentsRef = database.ref('agents');
-            agents.forEach(agent => {
-                agentsRef.child(agent.id).set(agent);
-            });
-        }
-
-        // Check if user has rated an agent
-        function hasRatedAgent(agentId) {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return Promise.resolve(false);
-            
-            return database.ref(`userRatings/${userId}/${agentId}`).once('value')
-                .then((snapshot) => {
-                    return snapshot.exists();
-                })
-                .catch(() => {
-                    return false;
-                });
-        }
-
-        // Get user's rating for an agent
-        function getUserRating(agentId) {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return Promise.resolve(null);
-            
-            return database.ref(`userRatings/${userId}/${agentId}`).once('value')
-                .then((snapshot) => {
-                    return snapshot.val();
-                })
-                .catch(() => {
-                    return null;
-                });
-        }
-
-        // Add a new rating
-        async function addRating(agentId, stars) {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return false;
-            
-            try {
-                // Add user rating
-                await database.ref(`userRatings/${userId}/${agentId}`).set(stars);
-                
-                // Update agent's total ratings
-                const agentRef = database.ref(`agents/${agentId}`);
-                await agentRef.transaction((agent) => {
-                    if (agent) {
-                        agent.ratingsCount = (agent.ratingsCount || 0) + 1;
-                        agent.totalStars = (agent.totalStars || 0) + stars;
-                        agent.rating = agent.totalStars / agent.ratingsCount;
-                    }
-                    return agent;
-                });
-                
-                return true;
-            } catch (error) {
-                console.error("Error adding rating:", error);
-                return false;
-            }
-        }
-
-        // Remove a rating
-        async function removeRating(agentId) {
-            const userId = auth.currentUser?.uid;
-            if (!userId) return false;
-            
-            try {
-                // Get old rating
-                const snapshot = await database.ref(`userRatings/${userId}/${agentId}`).once('value');
-                const oldStars = snapshot.val();
-                
-                if (oldStars === null) return false;
-                
-                // Remove user rating
-                await database.ref(`userRatings/${userId}/${agentId}`).remove();
-                
-                // Update agent's total ratings
-                const agentRef = database.ref(`agents/${agentId}`);
-                await agentRef.transaction((agent) => {
-                    if (agent) {
-                        agent.ratingsCount = (agent.ratingsCount || 1) - 1;
-                        agent.totalStars = (agent.totalStars || oldStars) - oldStars;
-                        agent.rating = agent.ratingsCount > 0 ? agent.totalStars / agent.ratingsCount : 0;
-                    }
-                    return agent;
-                });
-                
-                return true;
-            } catch (error) {
-                console.error("Error removing rating:", error);
-                return false;
-            }
-        }
-
-        // Update agent statistics (positions based on ratings)
-        async function updateAgentStats() {
-            // Sort agents by rating
-            agents.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-            
-            // Update positions
-            agents.forEach((agent, index) => {
-                agent.position = index + 1;
-            });
-            
-            // Save updated positions back to Firebase
-            try {
-                await saveAgentsToFirebase();
-            } catch (error) {
-                console.error("Error saving agent stats:", error);
-            }
-        }
-
-        // Show toast notification
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show ' + type;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Render agents to the page
-        async function renderAgents() {
+        function renderAgents() {
             const container = document.getElementById('agentsList');
+            container.innerHTML = '';
             
-            // Show loading state
-            container.innerHTML = '<div class="loading"><div class="loading-spinner"></div><span>Loading agents...</span></div>';
+            // Filter out hidden agents
+            const visibleAgents = agents.filter(agent => !agent.hidden);
             
-            try {
-                // Wait for all rating checks to complete
-                const ratingChecks = agents.map(agent => 
-                    Promise.all([hasRatedAgent(agent.id), getUserRating(agent.id)])
-                );
-                const ratingResults = await Promise.all(ratingChecks);
+            visibleAgents.forEach((agent, index) => {
+                const stars = '★'.repeat(Math.floor(agent.rating)) + '☆'.repeat(5 - Math.floor(agent.rating));
                 
-                // Now render the agents
-                container.innerHTML = '';
+                // Determine medal type based on position
+                let medalClass = '';
+                if (agent.position === 1) {
+                    medalClass = 'gold-medal';
+                } else if (agent.position === 2) {
+                    medalClass = 'silver-medal';
+                } else if (agent.position === 3) {
+                    medalClass = 'bronze-medal';
+                }
                 
-                agents.forEach((agent, index) => {
-                    const stars = '★'.repeat(Math.floor(agent.rating || 0)) + '☆'.repeat(5 - Math.floor(agent.rating || 0));
-                    const [hasRated, userRating] = ratingResults[index];
-                    
-                    const card = document.createElement('div');
-                    card.className = `agent-card ${agent.position <= 3 ? 'top-' + agent.position : ''}`;
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    
-                    card.innerHTML = `
-                        <div class="card-header">
-                            <div class="agent-rank">${agent.position}</div>
-                            <img src="${agent.image}" alt="${agent.name}" class="agent-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><circle cx=\"50\" cy=\"40\" r=\"35\" fill=\"%23f0f2ff\"/><text x=\"50\" y=\"50\" font-size=\"40\" text-anchor=\"middle\" dominant-baseline=\"middle\" fill=\"%233a56d4\">${agent.name.charAt(0)}</text></svg>'">
-                            <div class="agent-info">
-                                <h3 class="agent-name">${agent.name.replace(/[^a-zA-Z ]/g, "")} 
-                                    ${agent.position === 1 ? '<i class="fas fa-medal medal-icon"></i>' : ''}
-                                </h3>
-                                <span class="agent-platform">${agent.platform}</span>
-                                <div class="agent-rating">
-                                    <div class="rating-stars">${stars}</div>
-                                    <div class="rating-value">${(agent.rating || 0).toFixed(1)} (${agent.ratingsCount || 0})</div>
-                                </div>
+                const card = document.createElement('div');
+                card.className = `agent-card ${agent.position === 1 ? 'top-rated' : ''}`;
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <img src="${agent.image}" alt="${agent.name}" class="agent-avatar" onerror="this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><circle cx=\"50\" cy=\"40\" r=\"35\" fill=\"%23f0f2ff\"/><text x=\"50\" y=\"50\" font-size=\"40\" text-anchor=\"middle\" dominant-baseline=\"middle\" fill=\"%233a56d4\">${agent.name.charAt(0)}</text></svg>'">
+                        <div class="agent-info">
+                            <h3 class="agent-name">${agent.name}</h3>
+                            <span class="agent-platform">${agent.platform}</span>
+                            <div class="agent-rating">
+                                <div class="rating-stars">${stars}</div>
+                                <div class="rating-value">${agent.rating.toFixed(1)} (${agent.ratingsCount})</div>
                             </div>
-                            ${agent.position <= 3 ? `<div class="rank-badge badge-${agent.position}">${agent.position}</div>` : ''}
                         </div>
-                        <div class="card-body">
+                        ${medalClass ? `<div class="medal-badge"><i class="fas fa-medal ${medalClass}"></i></div>` : ''}
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-row">
+                            <div class="detail-label">Services:</div>
+                            <div class="detail-value">${agent.services}</div>
+                        </div>
+
+                        <div class="collapse-toggle">
+                            <span>View Profile</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapse-content">
                             <div class="detail-row">
-                                <div class="detail-label">Services:</div>
-                                <div class="detail-value">${agent.services}</div>
+                                <div class="detail-label">Location:</div>
+                                <div class="detail-value">${agent.city}</div>
                             </div>
-
-                            <div class="collapse-toggle">
-                                <span>View Profile</span>
-                                <i class="fas fa-chevron-down"></i>
+                            <div class="detail-row">
+                                <div class="detail-label">Address:</div>
+                                <div class="detail-value">${agent.address}</div>
                             </div>
-                            <div class="collapse-content">
-                                <div class="detail-row">
-                                    <div class="detail-label">Location:</div>
-                                    <div class="detail-value">${agent.city}</div>
-                                </div>
-                                <div class="detail-row">
-                                    <div class="detail-label">Address:</div>
-                                    <div class="detail-value">${agent.address}</div>
-                                </div>
-                                <div class="detail-row">
-                                    <div class="detail-label">Hours:</div>
-                                    <div class="detail-value">${agent.hours}</div>
-                                </div>
-                                <div class="detail-row">
-                                    <div class="detail-label">Member Since:</div>
-                                    <div class="detail-value">${agent.joined}</div>
-                                </div>
+                            <div class="detail-row">
+                                <div class="detail-label">Hours:</div>
+                                <div class="detail-value">${agent.hours}</div>
                             </div>
-
-                            ${hasRated ? `
-                                <div class="star-rating">
-                                    <div class="stars">
-                                        ${Array(5).fill().map((_, i) => 
-                                            `<i class="fas fa-star star ${i < userRating ? 'active' : ''}" data-value="${i+1}"></i>`
-                                        ).join('')}
-                                    </div>
-                                    <div>Your rating: ${userRating} stars</div>
-                                </div>
-                            ` : `
-                                <div class="star-rating">
-                                    <div class="stars">
-                                        ${Array(5).fill().map((_, i) => 
-                                            `<i class="far fa-star star" data-value="${i+1}"></i>`
-                                        ).join('')}
-                                    </div>
-                                    <div>Rate this agent</div>
-                                </div>
-                            `}
-                        </div>
-                        <div class="card-footer">
-                            <div class="rating-controls">
-                                ${hasRated ? `
-                                    <button class="btn btn-danger" data-id="${agent.id}" id="removeBtn-${agent.id}">
-                                        <i class="fas fa-minus btn-icon"></i> Remove
-                                    </button>
-                                ` : `
-                                    <button class="btn btn-primary" data-id="${agent.id}" id="rateBtn-${agent.id}" disabled>
-                                        <i class="fas fa-plus btn-icon"></i> Rate
-                                    </button>
-                                `}
-                                <a href="${agent.whatsapp}" class="btn btn-whatsapp" target="_blank">
-                                    <i class="fab fa-whatsapp btn-icon"></i> WhatsApp
-                                </a>
+                            <div class="detail-row">
+                                <div class="detail-label">Member Since:</div>
+                                <div class="detail-value">${agent.joined}</div>
                             </div>
                         </div>
-                    `;
-                    
-                    container.appendChild(card);
-                    
-                    // Add event listeners for collapsible content
-                    const toggle = card.querySelector('.collapse-toggle');
-                    const content = card.querySelector('.collapse-content');
+                    </div>
+                    <div class="card-footer">
+                        <a href="${agent.whatsapp}" class="btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp btn-icon"></i> WhatsApp
+                        </a>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+                
+                // Add event listeners for collapsible content
+                const toggle = card.querySelector('.collapse-toggle');
+                const content = card.querySelector('.collapse-content');
+                if (toggle && content) {
                     toggle.addEventListener('click', () => {
                         toggle.classList.toggle('active');
                         content.style.maxHeight = content.style.maxHeight ? null : `${content.scrollHeight}px`;
                     });
-
-                    // Add event listeners for star rating
-                    const starElements = card.querySelectorAll('.star');
-                    let selectedStars = hasRated ? userRating : 0;
-                    
-                    starElements.forEach(star => {
-                        star.addEventListener('click', (e) => {
-                            if (hasRated) return;
-                            
-                            const value = parseInt(e.target.getAttribute('data-value'));
-                            selectedStars = value;
-                            
-                            starElements.forEach((s, i) => {
-                                if (i < value) {
-                                    s.classList.remove('far');
-                                    s.classList.add('fas', 'active');
-                                } else {
-                                    s.classList.remove('fas', 'active');
-                                    s.classList.add('far');
-                                }
-                            });
-                            
-                            const rateBtn = card.querySelector('#rateBtn-' + agent.id);
-                            if (rateBtn) {
-                                rateBtn.disabled = false;
-                            }
-                        });
-                    });
-
-                    // Add event listeners for rating buttons
-                    if (hasRated) {
-                        document.getElementById(`removeBtn-${agent.id}`).addEventListener('click', async () => {
-                            if (await removeRating(agent.id)) {
-                                await updateAgentStats();
-                                await renderAgents();
-                                showToast("Rating removed successfully");
-                            }
-                        });
-                    } else {
-                        document.getElementById(`rateBtn-${agent.id}`).addEventListener('click', async () => {
-                            if (selectedStars > 0 && await addRating(agent.id, selectedStars)) {
-                                await updateAgentStats();
-                                await renderAgents();
-                                showToast(`Thank you for your ${selectedStars} star rating!`);
-                            }
-                        });
-                    }
-                });
-            } catch (error) {
-                console.error("Error rendering agents:", error);
-                container.innerHTML = '<div class="error">Error loading agents. Please try again later.</div>';
-            }
+                }
+            });
         }
 
-        // Initialize when DOM is loaded
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // Everything is initialized in the auth state change handler
+            renderAgents();
         });
     </script>
 </body>
