@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Premium Cash Agents | Rating System</title>
-    <meta name="description" content="Rate and rank trusted cash agents for gaming platforms">
+    <title>Premium Cash Agents | Trusted Gaming Transactions</title>
+    <meta name="description" content="Connect with our verified network of premium cash agents for seamless gaming transactions">
     <style>
         :root {
-            --primary: #9c27b0;
-            --primary-dark: #7b1fa2;
-            --accent: #ff4081;
+            --primary: #6a35ff;
+            --primary-dark: #5a2be8;
+            --primary-light: #8d6aff;
+            --accent: #ff4d8d;
+            --accent-dark: #ff2d7a;
             --gold: #FFD700;
             --gold-dark: #FFC000;
             --silver: #C0C0C0;
             --silver-dark: #A0A0A0;
             --bronze: #CD7F32;
             --bronze-dark: #B87333;
-            --text-dark: #2b2d42;
+            --text-dark: #1a1a2e;
             --text-medium: #4a4a6a;
-            --text-light: #6c6c8a;
-            --bg-light: #faf5ff;
-            --border-light: #f0e5ff;
-            --success: #4ade80;
-            --error: #f75555;
-            --warning: #ffab07;
+            --text-light: #a0a0c0;
+            --bg-light: #f5f5ff;
+            --bg-gradient: linear-gradient(135deg, #f0f2ff 0%, #e0e4ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --border-light: rgba(106, 53, 255, 0.2);
+            --success: #00d084;
+            --error: #ff3b5c;
+            --warning: #ffcc00;
             --whatsapp: #25D366;
+            --telegram: #0088cc;
             --shine-gradient: linear-gradient(
                 110deg,
                 transparent 25%,
-                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0.7) 50%,
                 transparent 75%
             );
+            --shadow-sm: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
@@ -45,14 +54,20 @@
         }
 
         html, body {
-            overflow: hidden;
+            overflow-x: hidden;
             width: 100%;
             height: 100%;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-light);
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-gradient);
             color: var(--text-dark);
             line-height: 1.6;
             min-height: 100vh;
@@ -77,15 +92,17 @@
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
-            padding: 1.5rem 0;
+            padding: 1.2rem 0;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 100;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .header-content {
@@ -95,41 +112,58 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
             display: flex;
             align-items: center;
+            font-size: 1.4rem;
+            font-weight: 700;
             letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .logo-icon {
             margin-right: 10px;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             animation: pulse 2s infinite;
         }
 
         /* Main Content */
         .main {
-            padding: 7rem 0 2rem;
-            height: 100vh;
+            padding: 6.5rem 0 3rem;
+            min-height: 100vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            background: var(--bg-gradient);
         }
 
         .page-header {
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             text-align: center;
             position: relative;
+            padding: 0 1rem;
         }
 
         .page-title {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             animation: fadeInUp 0.8s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
         }
 
         .page-subtitle {
@@ -144,20 +178,33 @@
         /* Agent Cards */
         .agents-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
             margin-top: 2rem;
         }
 
         .agent-card {
-            background: white;
-            border-radius: 12px;
+            background: var(--card-bg);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(156, 39, 176, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
             position: relative;
             transform-style: preserve-3d;
             perspective: 1000px;
+            border: 1px solid var(--border-light);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
         }
 
         .agent-card.hidden {
@@ -165,45 +212,29 @@
         }
 
         .agent-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(156, 39, 176, 0.2);
-        }
-
-        /* Top-rated card styling with colored outlines */
-        .agent-card.top-rated-1 {
-            border: 3px solid var(--gold-dark);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .agent-card.top-rated-2 {
-            border: 3px solid var(--silver-dark);
-            box-shadow: 0 5px 20px rgba(192, 192, 192, 0.3);
-        }
-
-        .agent-card.top-rated-3 {
-            border: 3px solid var(--bronze-dark);
-            box-shadow: 0 5px 20px rgba(205, 127, 50, 0.3);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-lg);
         }
 
         .card-header {
-            padding: 1.5rem;
+            padding: 2rem 2rem 1.5rem;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid var(--border-light);
             position: relative;
             overflow: hidden;
         }
 
         .agent-avatar-container {
             position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 1rem;
+            width: 120px;
+            height: 120px;
+            margin-right: 1.5rem;
             border-radius: 50%;
             overflow: hidden;
-            border: 3px solid var(--border-light);
+            border: 4px solid white;
             background-color: #f0f2ff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
+            flex-shrink: 0;
         }
 
         .agent-avatar {
@@ -212,6 +243,11 @@
             object-fit: cover;
             position: relative;
             z-index: 2;
+            transition: var(--transition);
+        }
+
+        .agent-avatar-container:hover .agent-avatar {
+            transform: scale(1.05);
         }
 
         .shine-effect {
@@ -238,86 +274,88 @@
         }
 
         .agent-name {
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             color: var(--primary-dark);
+            display: flex;
+            align-items: center;
         }
 
         .agent-platform {
             display: inline-block;
             background: linear-gradient(135deg, #f0f4ff 0%, #e8e9ff 100%);
             color: var(--primary);
-            padding: 0.25rem 0.75rem;
+            padding: 0.4rem 1rem;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 0.8rem;
+            box-shadow: var(--shadow-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .agent-rating {
-            display: flex;
-            align-items: center;
-        }
-
-        .rating-stars {
-            color: var(--gold);
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-            letter-spacing: 2px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .rating-value {
-            font-size: 0.9rem;
-            color: var(--text-medium);
-            font-weight: 600;
-        }
-
-        /* Improved medal badges without animations */
+        /* Medal badges - New improved design */
         .medal-badge {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.8rem;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-            background: rgba(255, 255, 255, 0.8);
-            width: 40px;
-            height: 40px;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: rotate(15deg);
         }
 
         .gold-medal {
-            color: var(--gold-dark);
+            background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .silver-medal {
-            color: var(--silver-dark);
+            background: linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%);
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .bronze-medal {
-            color: var(--bronze-dark);
+            background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%);
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .medal-icon {
+            font-size: 1.8rem;
         }
 
         .card-body {
-            padding: 1.5rem;
+            padding: 0 2rem 1.5rem;
         }
 
         .detail-row {
             display: flex;
-            margin-bottom: 1rem;
-            transition: all 0.3s;
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed var(--border-light);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
         }
 
         .detail-row:hover {
-            transform: translateX(5px);
+            transform: translateX(8px);
+            border-bottom-color: var(--primary-light);
         }
 
         .detail-label {
@@ -326,6 +364,13 @@
             width: 120px;
             flex-shrink: 0;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-label i {
+            margin-right: 0.5rem;
+            font-size: 1rem;
         }
 
         .detail-value {
@@ -333,19 +378,20 @@
             font-size: 0.9rem;
             color: var(--text-medium);
             font-weight: 500;
+            line-height: 1.5;
         }
 
         .card-footer {
-            padding: 1rem 1.5rem;
-            background: linear-gradient(135deg, #f9faff 0%, #f5f0ff 100%);
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(106, 53, 255, 0.08) 0%, rgba(255, 77, 141, 0.08) 100%);
             border-top: 1px solid var(--border-light);
             display: flex;
             justify-content: flex-end;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .agent-card:hover .card-footer {
-            background: linear-gradient(135deg, #f5f0ff 0%, #f0e5ff 100%);
+            background: linear-gradient(135deg, rgba(106, 53, 255, 0.15) 0%, rgba(255, 77, 141, 0.15) 100%);
         }
 
         .btn-whatsapp {
@@ -355,37 +401,55 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.6rem 1.2rem;
+            padding: 0.8rem 1.8rem;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: var(--transition);
             border: none;
-            box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-whatsapp::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            opacity: 0;
+            transition: var(--transition);
         }
 
         .btn-whatsapp:hover {
             background-color: #1da851;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(37, 211, 102, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-whatsapp:hover::after {
+            opacity: 1;
         }
 
         .btn-whatsapp:active {
             transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
         }
 
         .btn-icon {
-            margin-right: 0.5rem;
-            font-size: 1rem;
+            margin-right: 0.6rem;
+            font-size: 1.1rem;
         }
 
         /* Collapsible content */
         .collapse-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .collapse-toggle {
@@ -393,20 +457,20 @@
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            padding: 0.75rem 0;
+            padding: 0.8rem 0;
             color: var(--primary);
             font-weight: 700;
-            transition: all 0.3s;
+            transition: var(--transition);
             border-radius: 6px;
             margin-top: 0.5rem;
         }
 
         .collapse-toggle:hover {
-            background: rgba(156, 39, 176, 0.05);
+            background: rgba(106, 53, 255, 0.05);
         }
 
         .collapse-toggle i {
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .collapse-toggle.active i {
@@ -417,7 +481,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -428,12 +492,15 @@
         @keyframes pulse {
             0% {
                 transform: scale(1);
+                opacity: 0.8;
             }
             50% {
                 transform: scale(1.1);
+                opacity: 1;
             }
             100% {
                 transform: scale(1);
+                opacity: 0.8;
             }
         }
 
@@ -443,7 +510,7 @@
                 opacity: 0;
             }
             20% {
-                opacity: 1;
+                opacity: 0.8;
             }
             100% {
                 left: 100%;
@@ -460,89 +527,81 @@
         .agent-card:nth-child(1) { animation-delay: 0.1s; }
         .agent-card:nth-child(2) { animation-delay: 0.2s; }
         .agent-card:nth-child(3) { animation-delay: 0.3s; }
-        .agent-card:nth-child(4) { animation-delay: 0.4s; }
-        .agent-card:nth-child(5) { animation-delay: 0.5s; }
-
-        /* Floating particles background */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(156, 39, 176, 0.1);
-            border-radius: 50%;
-            animation: float linear infinite;
-        }
-
-        @keyframes float {
-            to {
-                transform: translateY(-100vh);
-            }
-        }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .agents-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             }
+        }
 
+        @media (max-width: 768px) {
             .page-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
 
             .page-subtitle {
                 font-size: 1rem;
             }
+            
+            .agent-avatar-container {
+                width: 100px;
+                height: 100px;
+            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+
             .card-header {
                 flex-direction: column;
                 text-align: center;
-                padding-bottom: 1rem;
+                padding-bottom: 1.5rem;
             }
 
             .agent-avatar-container {
-                margin: 0.5rem 0;
+                margin: 0 auto 1rem;
             }
 
             .agent-info {
                 text-align: center;
             }
 
-            .agent-rating {
+            .agent-name {
                 justify-content: center;
             }
 
             .card-footer {
                 flex-direction: column;
                 gap: 1rem;
+                align-items: stretch;
             }
 
             .btn-whatsapp {
                 width: 100%;
             }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+
+            .detail-label {
+                width: 100%;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Floating particles background -->
-    <div class="particles" id="particles"></div>
-
     <header class="header">
         <div class="container header-content">
             <div class="logo">
-                <i class="fas fa-coins logo-icon"></i>
-                <span>CASH AGENTS</span>
+                <i class="fas fa-shield-alt logo-icon"></i>
+                <span>PREMIUM CASH AGENTS</span>
             </div>
         </div>
     </header>
@@ -561,7 +620,7 @@
     </main>
 
     <script>
-        // Agent data with all agents but some hidden
+        // Agent data with only the 3 requested agents
         const agents = [
             {
                 id: 1,
@@ -571,14 +630,13 @@
                 city: "Bandarawela",
                 address: "R.Ranji And R.Ravi (24/7)",
                 services: "Instant deposits, Fast withdrawals, 24/7 support, Free Signal Group for Aviator Game",
-                hours: "7:00 AM - 12:00 PM (Daily)",
-                rating: 4.9,
-                ratingsCount: 142,
+                hours: "24/7 Availability",
                 position: 1,
                 image: "https://i.postimg.cc/TP5Mv6fT/FB-IMG-1746523786297.jpg",
                 joined: "January 2022",
                 whatsapp: "https://wa.me/94764659288",
-                hidden: false
+                hidden: false,
+                verified: true
             },
             {
                 id: 2,
@@ -587,15 +645,14 @@
                 platform: "1xBet / MelBet",
                 city: "Madola",
                 address: "FASTPAY SERVICES 24/7 (24/7)",
-                services: "VIP services, Bulk transactions, New user assistance",
-                hours: "07:00 AM - 12:00 PM (Daily)",
-                rating: 4.8,
-                ratingsCount: 118,
+                services: "VIP services, Bulk transactions, New user assistance, Personal account manager",
+                hours: "24/7 Availability",
                 position: 2,
                 image: "https://i.postimg.cc/7PFXWfNL/FB-IMG-1746532774174.jpg",
                 joined: "March 2021",
                 whatsapp: "https://wa.me/94701539258",
-                hidden: false
+                hidden: false,
+                verified: true
             },
             {
                 id: 3,
@@ -604,49 +661,14 @@
                 platform: "1xBet / Melbet / 888Starz",
                 city: "Moratuwa",
                 address: "Hunter Services (24/7)",
-                services: "Express withdrawals, Secure transactions, Mobile support",
+                services: "Express withdrawals, Secure transactions, Mobile support, Emergency services",
                 hours: "24/7 Availability",
-                rating: 4.7,
-                ratingsCount: 96,
                 position: 3,
                 image: "https://i.postimg.cc/Y9B56MCn/FB-IMG-1746534118841.jpg",
                 joined: "November 2022",
                 whatsapp: "https://wa.me/94715998411",
-                hidden: false
-            },
-            {
-                id: 4,
-                name: "Sarah Ratnayake",
-                phone: "+94764567890",
-                platform: "1xBet",
-                city: "Negombo",
-                address: "321 Coastal Road, Negombo",
-                services: "Beginner friendly, Low fees, Quick response",
-                hours: "8:00 AM - 11:30 PM (Daily)",
-                rating: 4.6,
-                ratingsCount: 87,
-                position: 4,
-                image: "https://randomuser.me/api/portraits/women/28.jpg",
-                joined: "August 2022",
-                whatsapp: "https://wa.me/94764567890",
-                hidden: true
-            },
-            {
-                id: 5,
-                name: "Kamal Bandara",
-                phone: "+94775678901",
-                platform: "MelBet",
-                city: "Matara",
-                address: "654 Temple Street, Matara",
-                services: "All payment methods, Reliable service, Help guides",
-                hours: "9:30 AM - 10:30 PM (Daily)",
-                rating: 4.5,
-                ratingsCount: 76,
-                position: 5,
-                image: "https://randomuser.me/api/portraits/men/53.jpg",
-                joined: "May 2023",
-                whatsapp: "https://wa.me/94775678901",
-                hidden: true
+                hidden: false,
+                verified: true
             }
         ];
 
@@ -654,37 +676,6 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
-        }
-
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 30;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                // Random size between 5px and 15px
-                const size = Math.random() * 10 + 5;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // Random position
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100 + 100}%`;
-                
-                // Random opacity
-                particle.style.opacity = Math.random() * 0.3 + 0.1;
-                
-                // Random animation duration between 20s and 40s
-                const duration = Math.random() * 20 + 20;
-                particle.style.animationDuration = `${duration}s`;
-                
-                // Random delay
-                particle.style.animationDelay = `${Math.random() * 20}s`;
-                
-                particlesContainer.appendChild(particle);
-            }
         }
 
         function renderAgents() {
@@ -695,24 +686,22 @@
             const visibleAgents = agents.filter(agent => !agent.hidden);
             
             visibleAgents.forEach((agent, index) => {
-                const stars = '★'.repeat(Math.floor(agent.rating)) + '☆'.repeat(5 - Math.floor(agent.rating));
-                
                 // Determine medal type based on position
                 let medalClass = '';
-                let topRatedClass = '';
+                let medalIcon = '';
                 if (agent.position === 1) {
                     medalClass = 'gold-medal';
-                    topRatedClass = 'top-rated-1';
+                    medalIcon = 'fas fa-trophy';
                 } else if (agent.position === 2) {
                     medalClass = 'silver-medal';
-                    topRatedClass = 'top-rated-2';
+                    medalIcon = 'fas fa-medal';
                 } else if (agent.position === 3) {
                     medalClass = 'bronze-medal';
-                    topRatedClass = 'top-rated-3';
+                    medalIcon = 'fas fa-award';
                 }
                 
                 const card = document.createElement('div');
-                card.className = `agent-card ${topRatedClass}`;
+                card.className = 'agent-card';
                 card.style.animationDelay = `${index * 0.1}s`;
                 
                 // Create card elements safely
@@ -728,7 +717,7 @@
                 avatarImg.alt = escapeHtml(agent.name);
                 avatarImg.className = 'agent-avatar';
                 avatarImg.onerror = function() {
-                    this.src = 'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="40" r="35" fill="%23f0f2ff"/><text x="50" y="50" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="%239c27b0">' + escapeHtml(agent.name.charAt(0)) + '</text></svg>';
+                    this.src = 'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="40" r="35" fill="%23f0f2ff"/><text x="50" y="50" font-size="40" text-anchor="middle" dominant-baseline="middle" fill="%236a35ff">' + escapeHtml(agent.name.charAt(0)) + '</text></svg>';
                 };
                 
                 const shineEffect = document.createElement('div');
@@ -744,6 +733,17 @@
                 const agentName = document.createElement('h3');
                 agentName.className = 'agent-name';
                 agentName.textContent = agent.name;
+                
+                if (agent.verified) {
+                    const verifiedBadge = document.createElement('i');
+                    verifiedBadge.className = 'fas fa-check-circle';
+                    verifiedBadge.style.color = 'var(--success)';
+                    verifiedBadge.style.marginLeft = '0.5rem';
+                    verifiedBadge.style.fontSize = '1rem';
+                    verifiedBadge.title = 'Verified Agent';
+                    agentName.appendChild(verifiedBadge);
+                }
+                
                 agentInfo.appendChild(agentName);
                 
                 const agentPlatform = document.createElement('span');
@@ -751,28 +751,14 @@
                 agentPlatform.textContent = agent.platform;
                 agentInfo.appendChild(agentPlatform);
                 
-                const agentRating = document.createElement('div');
-                agentRating.className = 'agent-rating';
-                
-                const ratingStars = document.createElement('div');
-                ratingStars.className = 'rating-stars';
-                ratingStars.textContent = stars;
-                agentRating.appendChild(ratingStars);
-                
-                const ratingValue = document.createElement('div');
-                ratingValue.className = 'rating-value';
-                ratingValue.textContent = `${agent.rating.toFixed(1)} (${agent.ratingsCount})`;
-                agentRating.appendChild(ratingValue);
-                
-                agentInfo.appendChild(agentRating);
                 cardHeader.appendChild(agentInfo);
                 
                 if (medalClass) {
                     const medalBadge = document.createElement('div');
-                    medalBadge.className = 'medal-badge';
-                    const medalIcon = document.createElement('i');
-                    medalIcon.className = `fas fa-medal ${medalClass}`;
-                    medalBadge.appendChild(medalIcon);
+                    medalBadge.className = `medal-badge ${medalClass}`;
+                    const medalIconElement = document.createElement('i');
+                    medalIconElement.className = medalIcon;
+                    medalBadge.appendChild(medalIconElement);
                     cardHeader.appendChild(medalBadge);
                 }
                 
@@ -781,12 +767,13 @@
                 const cardBody = document.createElement('div');
                 cardBody.className = 'card-body';
                 
+                // Services row
                 const servicesRow = document.createElement('div');
                 servicesRow.className = 'detail-row';
                 
                 const servicesLabel = document.createElement('div');
                 servicesLabel.className = 'detail-label';
-                servicesLabel.textContent = 'Services:';
+                servicesLabel.innerHTML = '<i class="fas fa-concierge-bell"></i> Services:';
                 servicesRow.appendChild(servicesLabel);
                 
                 const servicesValue = document.createElement('div');
@@ -796,11 +783,12 @@
                 
                 cardBody.appendChild(servicesRow);
                 
+                // Collapsible toggle
                 const collapseToggle = document.createElement('div');
                 collapseToggle.className = 'collapse-toggle';
                 
                 const toggleText = document.createElement('span');
-                toggleText.textContent = 'View Profile';
+                toggleText.textContent = 'View Full Profile';
                 collapseToggle.appendChild(toggleText);
                 
                 const toggleIcon = document.createElement('i');
@@ -818,7 +806,7 @@
                 
                 const locationLabel = document.createElement('div');
                 locationLabel.className = 'detail-label';
-                locationLabel.textContent = 'City:';
+                locationLabel.innerHTML = '<i class="fas fa-map-marker-alt"></i> City:';
                 locationRow.appendChild(locationLabel);
                 
                 const locationValue = document.createElement('div');
@@ -834,7 +822,7 @@
                 
                 const addressLabel = document.createElement('div');
                 addressLabel.className = 'detail-label';
-                addressLabel.textContent = 'Street:';
+                addressLabel.innerHTML = '<i class="fas fa-location-arrow"></i> Street:';
                 addressRow.appendChild(addressLabel);
                 
                 const addressValue = document.createElement('div');
@@ -850,7 +838,7 @@
                 
                 const hoursLabel = document.createElement('div');
                 hoursLabel.className = 'detail-label';
-                hoursLabel.textContent = 'Hours:';
+                hoursLabel.innerHTML = '<i class="fas fa-clock"></i> Hours:';
                 hoursRow.appendChild(hoursLabel);
                 
                 const hoursValue = document.createElement('div');
@@ -866,7 +854,7 @@
                 
                 const joinedLabel = document.createElement('div');
                 joinedLabel.className = 'detail-label';
-                joinedLabel.textContent = 'Member Since:';
+                joinedLabel.innerHTML = '<i class="fas fa-calendar-alt"></i> Member Since:';
                 joinedRow.appendChild(joinedLabel);
                 
                 const joinedValue = document.createElement('div');
@@ -879,6 +867,7 @@
                 cardBody.appendChild(collapseContent);
                 card.appendChild(cardBody);
                 
+                // Card footer
                 const cardFooter = document.createElement('div');
                 cardFooter.className = 'card-footer';
                 
@@ -892,7 +881,7 @@
                 whatsappIcon.className = 'fab fa-whatsapp btn-icon';
                 whatsappBtn.appendChild(whatsappIcon);
                 
-                const whatsappText = document.createTextNode('WhatsApp');
+                const whatsappText = document.createTextNode('Contact via WhatsApp');
                 whatsappBtn.appendChild(whatsappText);
                 
                 cardFooter.appendChild(whatsappBtn);
@@ -910,7 +899,6 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
             renderAgents();
             
             // Prevent zooming
