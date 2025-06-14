@@ -13,11 +13,8 @@
             --accent: #ff4d8d;
             --accent-dark: #ff2d7a;
             --gold: #FFD700;
-            --gold-dark: #FFC000;
             --silver: #C0C0C0;
-            --silver-dark: #A0A0A0;
             --bronze: #CD7F32;
-            --bronze-dark: #B87333;
             --text-dark: #1a1a2e;
             --text-medium: #4a4a6a;
             --text-light: #a0a0c0;
@@ -26,10 +23,7 @@
             --card-bg: rgba(255, 255, 255, 0.98);
             --border-light: rgba(106, 53, 255, 0.2);
             --success: #00d084;
-            --error: #ff3b5c;
-            --warning: #ffcc00;
             --whatsapp: #25D366;
-            --telegram: #0088cc;
             --shine-gradient: linear-gradient(
                 110deg,
                 transparent 25%,
@@ -57,12 +51,12 @@
             overflow-x: hidden;
             width: 100%;
             height: 100%;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         body::-webkit-scrollbar {
-            display: none; /* Chrome, Safari and Opera */
+            display: none;
         }
 
         body {
@@ -76,7 +70,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Layout */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -84,13 +77,7 @@
             padding: 0 20px;
         }
 
-        /* Typography */
-        h1, h2, h3 {
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        /* Header */
+        /* Fixed Header Styles */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
@@ -103,6 +90,8 @@
             box-shadow: var(--shadow-md);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         .header-content {
@@ -126,7 +115,6 @@
             animation: pulse 2s infinite;
         }
 
-        /* Main Content */
         .main {
             padding: 6.5rem 0 3rem;
             min-height: 100vh;
@@ -149,7 +137,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: fadeInUp 0.8s ease;
             position: relative;
             display: inline-block;
         }
@@ -171,11 +158,8 @@
             font-size: 1.1rem;
             max-width: 700px;
             margin: 0 auto;
-            animation: fadeInUp 0.8s ease 0.2s forwards;
-            opacity: 0;
         }
 
-        /* Agent Cards */
         .agents-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -190,8 +174,6 @@
             box-shadow: var(--shadow-md);
             transition: var(--transition);
             position: relative;
-            transform-style: preserve-3d;
-            perspective: 1000px;
             border: 1px solid var(--border-light);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
@@ -207,12 +189,8 @@
             background: var(--primary);
         }
 
-        .agent-card.hidden {
-            display: none;
-        }
-
         .agent-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
         }
 
@@ -297,44 +275,6 @@
             box-shadow: var(--shadow-sm);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-
-        /* Medal badges - New improved design */
-        .medal-badge {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            z-index: 2;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transform: rotate(15deg);
-        }
-
-        .gold-medal {
-            background: linear-gradient(135deg, #FFD700 0%, #FFC000 100%);
-            color: #fff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .silver-medal {
-            background: linear-gradient(135deg, #C0C0C0 0%, #A0A0A0 100%);
-            color: #fff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .bronze-medal {
-            background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%);
-            color: #fff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .medal-icon {
-            font-size: 1.8rem;
         }
 
         .card-body {
@@ -445,7 +385,6 @@
             font-size: 1.1rem;
         }
 
-        /* Collapsible content */
         .collapse-content {
             max-height: 0;
             overflow: hidden;
@@ -475,18 +414,6 @@
 
         .collapse-toggle.active i {
             transform: rotate(180deg);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         @keyframes pulse {
@@ -519,16 +446,21 @@
         }
 
         .agent-card {
-            animation: fadeInUp 0.6s ease forwards;
+            animation: fadeIn 0.6s ease forwards;
             opacity: 0;
-            transform-style: preserve-3d;
         }
 
-        .agent-card:nth-child(1) { animation-delay: 0.1s; }
-        .agent-card:nth-child(2) { animation-delay: 0.2s; }
-        .agent-card:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-        /* Responsive Design */
         @media (max-width: 992px) {
             .agents-grid {
                 grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -539,11 +471,9 @@
             .page-title {
                 font-size: 2rem;
             }
-
             .page-subtitle {
                 font-size: 1rem;
             }
-            
             .agent-avatar-container {
                 width: 100px;
                 height: 100px;
@@ -554,40 +484,32 @@
             .agents-grid {
                 grid-template-columns: 1fr;
             }
-
             .card-header {
                 flex-direction: column;
                 text-align: center;
                 padding-bottom: 1.5rem;
             }
-
             .agent-avatar-container {
                 margin: 0 auto 1rem;
             }
-
             .agent-info {
                 text-align: center;
             }
-
             .agent-name {
                 justify-content: center;
             }
-
             .card-footer {
                 flex-direction: column;
                 gap: 1rem;
                 align-items: stretch;
             }
-
             .btn-whatsapp {
                 width: 100%;
             }
-
             .detail-row {
                 flex-direction: column;
                 gap: 0.3rem;
             }
-
             .detail-label {
                 width: 100%;
             }
@@ -610,7 +532,7 @@
         <div class="container">
             <div class="page-header">
                 <h1 class="page-title">TRUSTED CASH AGENTS</h1>
-                <p class="page-subtitle">Connect with our verified network of cash agents for seamless transactions on all major gaming platforms. Fast, reliable and confidential service</p>
+                <p class="page-subtitle">Connect with our premium network of verified cash agents for fast, secure and confidential transactions across all major gaming platforms</p>
             </div>
 
             <div class="agents-grid" id="agentsList">
@@ -620,7 +542,7 @@
     </main>
 
     <script>
-        // Agent data with only the 3 requested agents
+        // Agent data
         const agents = [
             {
                 id: 1,
@@ -631,11 +553,9 @@
                 address: "R.Ranji And R.Ravi (24/7)",
                 services: "Instant deposits, Fast withdrawals, 24/7 support, Free Signal Group for Aviator Game",
                 hours: "24/7 Availability",
-                position: 1,
                 image: "https://i.postimg.cc/TP5Mv6fT/FB-IMG-1746523786297.jpg",
                 joined: "January 2022",
                 whatsapp: "https://wa.me/94764659288",
-                hidden: false,
                 verified: true
             },
             {
@@ -647,11 +567,9 @@
                 address: "FASTPAY SERVICES 24/7 (24/7)",
                 services: "VIP services, Bulk transactions, New user assistance, Personal account manager",
                 hours: "24/7 Availability",
-                position: 2,
                 image: "https://i.postimg.cc/7PFXWfNL/FB-IMG-1746532774174.jpg",
                 joined: "March 2021",
                 whatsapp: "https://wa.me/94701539258",
-                hidden: false,
                 verified: true
             },
             {
@@ -663,11 +581,9 @@
                 address: "Hunter Services (24/7)",
                 services: "Express withdrawals, Secure transactions, Mobile support, Emergency services",
                 hours: "24/7 Availability",
-                position: 3,
                 image: "https://i.postimg.cc/Y9B56MCn/FB-IMG-1746534118841.jpg",
                 joined: "November 2022",
                 whatsapp: "https://wa.me/94715998411",
-                hidden: false,
                 verified: true
             }
         ];
@@ -678,28 +594,24 @@
             return div.innerHTML;
         }
 
+        // Function to shuffle array randomly
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
         function renderAgents() {
             const container = document.getElementById('agentsList');
             container.innerHTML = '';
             
-            // Filter out hidden agents
-            const visibleAgents = agents.filter(agent => !agent.hidden);
+            // Shuffle agents array for random order each time
+            const shuffledAgents = shuffleArray(agents);
             
-            visibleAgents.forEach((agent, index) => {
-                // Determine medal type based on position
-                let medalClass = '';
-                let medalIcon = '';
-                if (agent.position === 1) {
-                    medalClass = 'gold-medal';
-                    medalIcon = 'fas fa-trophy';
-                } else if (agent.position === 2) {
-                    medalClass = 'silver-medal';
-                    medalIcon = 'fas fa-medal';
-                } else if (agent.position === 3) {
-                    medalClass = 'bronze-medal';
-                    medalIcon = 'fas fa-award';
-                }
-                
+            shuffledAgents.forEach((agent, index) => {
                 const card = document.createElement('div');
                 card.className = 'agent-card';
                 card.style.animationDelay = `${index * 0.1}s`;
@@ -752,16 +664,6 @@
                 agentInfo.appendChild(agentPlatform);
                 
                 cardHeader.appendChild(agentInfo);
-                
-                if (medalClass) {
-                    const medalBadge = document.createElement('div');
-                    medalBadge.className = `medal-badge ${medalClass}`;
-                    const medalIconElement = document.createElement('i');
-                    medalIconElement.className = medalIcon;
-                    medalBadge.appendChild(medalIconElement);
-                    cardHeader.appendChild(medalBadge);
-                }
-                
                 card.appendChild(cardHeader);
                 
                 const cardBody = document.createElement('div');
@@ -822,7 +724,7 @@
                 
                 const addressLabel = document.createElement('div');
                 addressLabel.className = 'detail-label';
-                addressLabel.innerHTML = '<i class="fas fa-location-arrow"></i> Street:';
+                addressLabel.innerHTML = '<i class="fas fa-location-arrow"></i> Address:';
                 addressRow.appendChild(addressLabel);
                 
                 const addressValue = document.createElement('div');
