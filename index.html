@@ -65,7 +65,7 @@
             color: var(--text-dark);
             line-height: 1.6;
             min-height: 100vh;
-            touch-action: manipulation;
+            touch-action: pan-y;
             position: relative;
             -webkit-overflow-scrolling: touch;
         }
@@ -77,7 +77,7 @@
             padding: 0 20px;
         }
 
-        /* Fixed Header Styles */
+        /* Fixed Header Styles - Completely fixed during scrolling */
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
@@ -92,12 +92,14 @@
             -webkit-backdrop-filter: blur(10px);
             transform: translateZ(0);
             will-change: transform;
+            -webkit-transform: translateZ(0);
         }
 
         .header-content {
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100%;
         }
 
         .logo {
@@ -116,11 +118,13 @@
         }
 
         .main {
-            padding: 6.5rem 0 3rem;
+            padding-top: 6.5rem; /* Matches header height */
             min-height: 100vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             background: var(--bg-gradient);
+            position: relative;
+            z-index: 1;
         }
 
         .page-header {
@@ -128,6 +132,7 @@
             text-align: center;
             position: relative;
             padding: 0 1rem;
+            padding-top: 2rem;
         }
 
         .page-title {
@@ -165,6 +170,7 @@
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
+            padding-bottom: 3rem;
         }
 
         .agent-card {
@@ -532,7 +538,7 @@
         <div class="container">
             <div class="page-header">
                 <h1 class="page-title">TRUSTED CASH AGENTS</h1>
-                <p class="page-subtitle">Connect with our verified network of cash agents for seamless transactions on all major gaming platforms. Fast, reliable and confidential service</p>
+                <p class="page-subtitle">Connect with our premium network of verified cash agents for fast, secure and confidential transactions across all major gaming platforms</p>
             </div>
 
             <div class="agents-grid" id="agentsList">
@@ -724,7 +730,7 @@
                 
                 const addressLabel = document.createElement('div');
                 addressLabel.className = 'detail-label';
-                addressLabel.innerHTML = '<i class="fas fa-location-arrow"></i> Street:';
+                addressLabel.innerHTML = '<i class="fas fa-location-arrow"></i> Address:';
                 addressRow.appendChild(addressLabel);
                 
                 const addressValue = document.createElement('div');
